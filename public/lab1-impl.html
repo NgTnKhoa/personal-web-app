@@ -1,0 +1,332 @@
+<html lang="en">
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/dialog.css">
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/dialog.js"></script>
+<style type="text/css">
+body {
+color: #404E67;
+background: #F5F7FA;
+font-family: 'Open Sans', sans-serif;
+}
+.table-wrapper {
+width: 800px;
+background: rgb(241, 233, 233);
+padding: 20px;
+box-shadow: 0 15px 15px rgba(56, 49, 49, 0.05);
+border-radius: 1cm;
+}
+td, th {
+    border-bottom: 2px solid #000000;
+}
+.table-title {
+padding-bottom: 10px;
+margin: 0 0 10px;
+vertical-align: middle;
+}
+.table-title h2 {
+margin: 6px 0 0;
+font-size: 25px;
+vertical-align: middle;
+}
+.table-title .add-new {
+float: right;
+height: 30px;
+font-weight: bold;
+font-size: 12px;
+text-shadow: none;
+min-width: 100px;
+border-radius: 50px;
+line-height: 13px;
+vertical-align: middle;
+}
+.table-title .add-new i {
+margin-right: 4px;
+vertical-align: middle;
+}
+table.table {
+table-layout: fixed;
+vertical-align: middle;
+}
+table.table tr th, table.table tr td {
+border-color: #000000;
+vertical-align: middle;
+}
+table.table th i {
+font-size: 13px;
+margin: 0 5px;
+cursor: pointer;
+vertical-align: middle;
+}
+table.table th:last-child {
+width: 100px;
+vertical-align: middle;
+}
+table.table th {
+width: 100px;
+vertical-align: middle;
+}
+table.table td a {
+cursor: pointer;
+display: inline-block;
+margin: 0 5px;
+min-width: 20px;
+vertical-align: middle;
+}
+table.table td a.add {
+color: #27C46B;
+vertical-align: middle;
+}
+table.table td a.edit {
+color: #FFC107;
+vertical-align: middle;
+}
+table.table td a.delete {
+color: #E34724;
+vertical-align: middle;
+}
+table.table td i {
+font-size: 19px;
+vertical-align: middle;
+}
+table.table td a.add i {
+font-size: 24px;
+margin-right: -1px;
+position: relative;
+top: 3px;
+vertical-align: middle;
+}
+table.table .form-control {
+height: 32px;
+line-height: 32px;
+box-shadow: none;
+border-radius: 2px;
+vertical-align: middle;
+}
+table.table .form-control.error {
+border-color: #f50000;
+vertical-align: middle;
+}
+table.table td .add {
+display: none;
+vertical-align: middle;
+}
+*{
+  box-sizing: border-box;
+}
+.search-box{
+  width: fit-content;
+  height: fit-content;
+  position: relative;
+}
+.input-search{
+  height: 30px;
+  width: 30px;
+  border-style: none;
+  padding: 10px;
+  font-size: 18px;
+  letter-spacing: 2px;
+  outline: none;
+  border-radius: 25px;
+  transition: all 0.5s ease-in-out;
+  background-color: #5BC0DE;
+;
+  padding-right: 40px;
+  color:rgb(0, 0, 0);
+}
+.input-search::placeholder{
+  color:rgba(0, 0, 0, 0.5);
+  font-size: 13px;
+  letter-spacing: 2px;
+  font-weight: 100px;
+}
+.btn-search{
+  width: 50px;
+  height: 30px;
+  border-style: none;
+  font-size: 20px;
+  font-weight: bold;
+  outline: none;
+  cursor: pointer;
+  border-radius: 50%;
+  position: absolute;
+  right: 0px;
+  color:#ffffff ;
+  background-color:transparent;
+  pointer-events: painted;  
+}
+.btn-search:focus ~ .input-search{
+  width: 150px;
+  border-radius: 0px;
+  background-color: transparent;
+  border-bottom:1px solid rgba(255,255,255,.5);
+  transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+}
+.input-search:focus{
+  width: 150px;
+  border-radius: 0px;
+  background-color: transparent;
+  border-bottom:1px solid rgba(0, 0, 0, 0.5);
+  transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+}
+</style>
+<script type="text/javascript">
+$(document).ready(function(){
+$('[data-toggle="tooltip"]').tooltip();
+var actions = $("table td:last-child").html();
+// Append table with add row form on add new button click
+$(".add-new").click(function(){
+$(this).attr("disabled", "disabled");
+var index = $("table tbody tr:last-child").index();
+var row = '<tr>' +
+'<td><input type="text" class="form-control" name="name" id="name"></td>' +
+'<td><input type="text" class="form-control" name="department" id="department"></td>' +
+'<td><input type="text" class="form-control" name="phone" id="phone"></td>' +
+'<td><input type="text" class="form-control" name="phone" id="phone"></td>' +
+'<td><input type="text" class="form-control" name="phone" id="phone"></td>' +
+'<td style="text-align: center;"><a href="#img" class="fa fa-plus login-window button"></a></td>' +
+'<td>' + actions + '</td>' +
+'</tr>';
+$("table").append(row);
+$("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
+$('[data-toggle="tooltip"]').tooltip();
+});
+// Add row on add button click
+$(document).on("click", ".add", function(){
+var empty = false;
+var input = $(this).parents("tr").find('input[type="text"]');
+input.each(function(){
+if(!$(this).val()){
+$(this).addClass("error");
+empty = true;
+} else{
+$(this).removeClass("error");
+}
+});
+$(this).parents("tr").find(".error").first().focus();
+if(!empty){
+input.each(function(){
+$(this).parent("td").html($(this).val());
+});
+$(this).parents("tr").find(".add, .edit").toggle();
+$(".add-new").removeAttr("disabled");
+}
+});
+// Edit row on edit button click
+$(document).on("click", ".edit", function(){
+$(this).parents("tr").find("td:not(:last-child)").each(function(){
+$(this).html('<input type="text" class="form-control" value="' + $(this).text() + '">');
+});
+$(this).parents("tr").find(".add, .edit").toggle();
+$(".add-new").attr("disabled", "disabled");
+});
+// Delete row on delete button click
+$(document).on("click", ".delete", function(){
+$(this).parents("tr").remove();
+$(".add-new").removeAttr("disabled");
+});
+});
+</script>
+</head>
+<body style="background-color: white;">
+    <div>
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-8"><h2><b>Terrarium</b> Management</h2></div>
+                        <div class="col-sm-4" style="position: absolute; padding-top: 7px; left: 350px;">
+                            <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i>Add</button>
+                            
+                            <form action="lab1.html">
+                                <div class="search-box" style="position: absolute; left: 270px;">
+                                    <button class="btn-search">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </button>
+                                    <input type="text" class="input-search" placeholder="Search">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+            </div>
+        <table class="table">
+        <thead>
+        <tr>
+            <th style="width: 130px;">Product Code</th>
+            <th style="width: 150px;">Product's Name</th>
+            <th style="text-align: center; width: 90px;">Amount</th>
+            <th style="text-align: center; width: 85px;">Price</th>
+            <th style="text-align: center; width: 115px;">Import Day</th>
+            <th style="text-align: center;">Image</th>
+            <th style="text-align: center;"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>TR01</td>
+            <td>Polygon Terrarium</td>
+            <td style="text-align: center;">7</td>
+            <td style="text-align: center;">300$</td>
+            <td style="text-align: center;">26/08/2020</td>
+            <td style="text-align: center;"><img src="images/sp1.jpg" class="image" width="50px" height="50px"></td>
+        <td>
+        <a class="add" title="" data-toggle="tooltip" data-original-title="Add"><i class="material-icons"></i></a>
+        <a class="edit" title="" data-toggle="tooltip" data-original-title="Edit"><i class="material-icons"></i></a>
+        <a class="delete" title="" data-toggle="tooltip" data-original-title="Delete"><i class="material-icons"></i></a>
+        </td>
+        </tr>
+        <tr>
+            <td>TR02</td>
+            <td>Oval Terrarium</td>
+            <td style="text-align: center;">5</td>
+            <td style="text-align: center;">250$</td>
+            <td style="text-align: center;">10/11/2020</td>
+            <td style="text-align: center;"><img src="images/sp2.jpg" class="image" width="50px" height="50px"></td>
+        <td>
+        <a class="add" title="" data-toggle="tooltip" data-original-title="Add" style="display: none;"><i class="material-icons"></i></a>
+        <a class="edit" title="" data-toggle="tooltip" data-original-title="Edit" style="display: inline-block;"><i class="material-icons"></i></a>
+        <a class="delete" title="" data-toggle="tooltip" data-original-title="Delete"><i class="material-icons"></i></a>
+        </td>
+        </tr>
+        <tr>
+            <td>TR03</td>
+            <td>Globular Terrarium</td>
+            <td style="text-align: center;">3</td>
+            <td style="text-align: center;">230$</td>
+            <td style="text-align: center;">06/01/2021</td>
+            <td style="text-align: center;"><img src="images/sp3.jpg" class="image" width="50px" height="50px"></td>
+        <td>
+        <a class="add" title="" data-toggle="tooltip" data-original-title="Add"><i class="material-icons"></i></a>
+        <a class="edit" title="" data-toggle="tooltip" data-original-title="Edit"><i class="material-icons"></i></a>
+        <a class="delete" title="" data-toggle="tooltip" data-original-title="Delete"><i class="material-icons"></i></a>
+        </td>
+        </tr>
+        </tbody>
+        </table>
+        </div>
+    </div>
+    <div id="img" class="login">
+        <p class="login_title"> Đăng nhập</p>
+        <a href="#" class="close"><img src="close.png" class="img-close" title="Close Window" alt="Close" /></a>
+        <form method="post" class="login-content" action="#">
+        <label class="username">
+        <span>Tên hoặc email</span>
+        <input id="username" name="username" value="" type="text" autocomplete="on" placeholder="Username">
+        </label>
+        <label class="password">
+        <span>Mật khẩu</span>
+        <input id="password" name="password" value="" type="password" placeholder="Password">
+        </label>
+        <button class="button submit-button" type="button">Đăng nhập</button>
+        <p>
+        <a class="forgot" href="#">Quên mật khẩu?</a>
+        </p>        
+        </form>
+    </div>
+    <script type="text/javascript"></script></body></html>
+</body>
